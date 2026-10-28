@@ -1,0 +1,10 @@
+{
+  "name": "organizador-de-arquivos",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Organizador de documentos com acesso pelo computador e pelo celular",
+  "dependencies": {
+    "@vercel/blob": "^2.8.2"
+  }
+}

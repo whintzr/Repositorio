@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#141942">
+<meta name="description" content="Sistema para organizar documentos por formato, com acesso pelo computador e pelo celular.">
 <title>Organizador de Arquivos</title>
 <style>
 :root{
@@ -23,25 +25,26 @@
   --zip:#c9a048;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;font-size:15px}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;font-size:15px;-webkit-text-size-adjust:100%}
 button,input,select{font:inherit;color:inherit}
-.app{max-width:1240px;margin:0 auto;padding:22px 24px 40px}
+.app{max-width:1240px;margin:0 auto;padding:22px 24px 48px}
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
 .brand{display:flex;align-items:center;gap:12px}
-.brand svg{width:34px;height:34px}
+.brand svg{width:34px;height:34px;flex:0 0 34px}
 .brand h1{margin:0;font-size:21px;font-weight:600;letter-spacing:.2px}
-.rootinfo{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+.rootinfo{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;flex-wrap:wrap}
 .rootinfo b{color:var(--text);font-weight:600}
 
-.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--bg2);padding:8px 14px;border-radius:9px;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--bg2);padding:9px 14px;border-radius:9px;cursor:pointer;transition:.15s;white-space:nowrap}
 .btn:hover{background:var(--bg3);border-color:#3f4a95}
+.btn:disabled{opacity:.55;cursor:default}
 .btn.primary{background:var(--accent-d);border-color:var(--accent-d);font-weight:600}
 .btn.primary:hover{background:var(--accent);border-color:var(--accent)}
 .btn.danger{color:var(--danger)}
 .btn.sm{padding:5px 10px;font-size:13px}
 .btn svg{width:16px;height:16px}
 
-.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tab{display:flex;align-items:center;gap:10px;padding:12px 18px;background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);cursor:pointer;font-weight:600;white-space:nowrap;border-radius:10px 10px 0 0}
 .tab:hover{color:var(--text);background:var(--bg2)}
 .tab.active{color:var(--text);background:var(--bg2);border-bottom-color:var(--accent)}
@@ -61,7 +64,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;fl
 
 .filters{display:grid;grid-template-columns:2fr 1.1fr 1fr 1fr auto;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px;align-items:end}
 .filters label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
-.filters input,.filters select,.modal input,.modal select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--text);outline:none;width:100%}
+.filters input,.filters select,.modal input,.modal select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;color:var(--text);outline:none;width:100%}
 .filters input:focus,.filters select:focus,.modal input:focus,.modal select:focus{border-color:var(--accent)}
 input[type=date]{color-scheme:dark;color:var(--gold)}
 select option{background:var(--bg2)}
@@ -91,7 +94,7 @@ tbody tr:hover{background:rgba(111,128,255,.07)}
 .dim{color:var(--muted)}
 .gold{color:var(--gold);font-variant-numeric:tabular-nums}
 .rowact{display:flex;gap:6px;justify-content:flex-end}
-.iconbtn{background:none;border:1px solid transparent;color:var(--muted);width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.iconbtn{background:none;border:1px solid transparent;color:var(--muted);width:34px;height:34px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .iconbtn:hover{background:var(--bg3);border-color:var(--line);color:var(--text)}
 .iconbtn.del:hover{color:var(--danger)}
 .iconbtn svg{width:17px;height:17px}
@@ -99,11 +102,30 @@ tbody tr:hover{background:rgba(111,128,255,.07)}
 .empty svg{width:56px;height:56px;opacity:.6;margin-bottom:10px}
 .empty p{margin:6px 0}
 
-.center{max-width:560px;margin:70px auto;text-align:center;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:40px 34px}
-.center svg.big{width:64px;height:64px;margin-bottom:12px}
-.center h2{margin:0 0 10px;font-size:22px}
-.center p{color:var(--muted);line-height:1.55;margin:8px 0}
-.center .btn{margin-top:18px;padding:11px 20px;font-size:16px}
+.center{max-width:430px;margin:8vh auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:34px 30px}
+.center.wide{max-width:560px}
+.center svg.big{width:60px;height:60px;display:block;margin:0 auto 14px}
+.center h2{margin:0 0 8px;font-size:22px;text-align:center}
+.center p{color:var(--muted);line-height:1.55;margin:8px 0;text-align:center}
+.center label.f{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 5px}
+.center input{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:11px 12px;color:var(--text);outline:none;width:100%}
+.center input:focus{border-color:var(--accent)}
+.center .btn{width:100%;margin-top:20px;padding:12px;font-size:16px}
+.erro{color:var(--danger);text-align:center;margin-top:14px;min-height:20px;font-size:14px}
+
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+.card h3{margin:0 0 6px;font-size:17px;display:flex;align-items:center;gap:10px}
+.card h3 svg{width:19px;height:19px;color:var(--gold)}
+.card p{color:var(--muted);line-height:1.55;margin:6px 0 14px}
+.card .linha{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.qrbox{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.qrbox canvas,.qrbox img{background:#fff;padding:12px;border-radius:12px;width:212px;height:212px}
+.qrinfo{flex:1;min-width:230px}
+.qrinfo ol{margin:0 0 12px;padding-left:20px;color:var(--muted);line-height:1.7}
+.link{word-break:break-all;font-size:12px;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.lista{width:100%;border-collapse:collapse}
+.lista td{padding:9px 0;border-bottom:1px solid rgba(47,56,120,.55)}
+.lista tr:last-child td{border-bottom:none}
 
 .overlay{position:fixed;inset:0;background:rgba(8,10,35,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
 .modal{background:var(--bg2);border:1px solid var(--line);border-radius:14px;width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
@@ -118,16 +140,16 @@ tbody tr:hover{background:rgba(111,128,255,.07)}
 .uprow .fs{font-size:12px;color:var(--gold)}
 .typelist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 12px;border-radius:20px;background:rgba(111,128,255,.16);border:1px solid rgba(111,128,255,.4);font-weight:600;font-size:13px}
-.chip button{background:none;border:none;color:var(--muted);cursor:pointer;width:20px;height:20px;border-radius:50%;line-height:1;font-size:15px}
+.chip button{background:none;border:none;color:var(--muted);cursor:pointer;width:22px;height:22px;border-radius:50%;line-height:1;font-size:15px}
 .chip button:hover{background:rgba(234,122,114,.25);color:var(--danger)}
 .inline{display:flex;gap:8px}
 .inline input{flex:1}
 
-#busy{position:fixed;inset:0;background:rgba(8,10,35,.78);display:none;align-items:center;justify-content:center;z-index:80;flex-direction:column;gap:14px;font-weight:600}
+#busy{position:fixed;inset:0;background:rgba(8,10,35,.78);display:none;align-items:center;justify-content:center;z-index:80;flex-direction:column;gap:14px;font-weight:600;padding:20px;text-align:center}
 #busy.on{display:flex}
 .spin{width:38px;height:38px;border:4px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:s 1s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
-#toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:90}
+#toasts{position:fixed;right:18px;bottom:18px;left:18px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:90;pointer-events:none}
 .toast{background:var(--bg3);border:1px solid var(--line);border-left:4px solid var(--accent);padding:11px 16px;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:380px}
 .toast.ok{border-left-color:var(--ok)}
 .toast.err{border-left-color:var(--danger)}
@@ -136,9 +158,25 @@ tbody tr:hover{background:rgba(111,128,255,.07)}
 @media (max-width:900px){
   .filters{grid-template-columns:1fr 1fr}
   .filters .wide{grid-column:1/-1}
-  .col-size,.col-tipo{display:none}
 }
-@media (max-width:560px){.app{padding:14px}}
+@media (max-width:700px){
+  .app{padding:14px 12px 40px}
+  header{margin-bottom:14px}
+  .brand h1{font-size:18px}
+  .tab{padding:11px 13px;gap:7px}
+  .actions{width:100%}
+  .actions .btn{flex:1}
+  thead{display:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tr{border-bottom:1px solid var(--line);padding:12px 14px}
+  tbody tr:last-child{border-bottom:none}
+  td{border:none;padding:2px 0}
+  td.meta{color:var(--muted);font-size:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px}
+  .rowact{justify-content:flex-start;gap:14px;margin-top:8px}
+  .iconbtn{width:40px;height:40px;border:1px solid var(--line)}
+  .center{margin:4vh auto;padding:26px 20px}
+  .qrbox canvas,.qrbox img{margin:0 auto}
+}
 </style>
 </head>
 <body>
@@ -150,28 +188,25 @@ tbody tr:hover{background:rgba(111,128,255,.07)}
 'use strict';
 
 /* ================= CONFIGURAÇÃO ================= */
-const SECTIONS = [
-  {id:'word',     label:'Pasta Word',       dir:'Word',       color:'var(--word)', typed:true,
-   exts:['.doc','.docx','.docm','.dot','.dotx','.rtf','.odt'], types:['POL','FF','FT','PR','IT','RG']},
-  {id:'ppt',      label:'Pasta PowerPoint', dir:'PowerPoint', color:'var(--ppt)',  typed:true,
-   exts:['.ppt','.pptx','.pptm','.pps','.ppsx','.pot','.potx','.odp'], types:['Apresentação','Treinamento','Reunião','Relatório']},
-  {id:'excel',    label:'Pasta Excel',      dir:'Excel',      color:'var(--xls)',  typed:true,
-   exts:['.xls','.xlsx','.xlsm','.xlsb','.xlt','.xltx','.csv','.ods'], types:['Controle','Indicadores','Planilha','Relatório']},
-  {id:'download', label:'Pasta Download',   dir:'Download',   color:'var(--zip)',  typed:false, exts:null, types:[]}
+const SECOES = [
+  {id:'word',     label:'Pasta Word',       dir:'Word',       color:'var(--word)', tipado:true,
+   exts:['.doc','.docx','.docm','.dot','.dotx','.rtf','.odt']},
+  {id:'ppt',      label:'Pasta PowerPoint', dir:'PowerPoint', color:'var(--ppt)',  tipado:true,
+   exts:['.ppt','.pptx','.pptm','.pps','.ppsx','.pot','.potx','.odp']},
+  {id:'excel',    label:'Pasta Excel',      dir:'Excel',      color:'var(--xls)',  tipado:true,
+   exts:['.xls','.xlsx','.xlsm','.xlsb','.xlt','.xltx','.csv','.ods']},
+  {id:'download', label:'Pasta Download',   dir:'Download',   color:'var(--zip)',  tipado:false, exts:null}
 ];
-const META_FILE = '_sistema.json';
+const QR_LIB = '/vendor/qrcode.min.js';   // biblioteca local, sem depender de internet externa
 
 /* ================= ESTADO ================= */
-let root = null;                 // handle da pasta raiz
-let connected = false;           // true quando a pasta está autorizada e aberta
-let secHandles = {};             // id -> handle da pasta da aba
-let meta = null;                 // metadados (tipos e tipo de cada arquivo)
-let cache = {};                  // id -> lista recursiva de itens
+let eu = null;                   // usuário logado
+let dados = {};                  // secId -> {itens:[], tipos:[]}
 let cur = {sec:'word', path:[]};
 let filt = {q:'', tipo:'', from:'', to:'', sort:'date', dir:'desc'};
-let view = [];                   // itens exibidos atualmente
+let view = [];
 
-const S = () => SECTIONS.find(s => s.id === cur.sec);
+const S = () => SECOES.find(s => s.id === cur.sec);
 const $ = (sel, el=document) => el.querySelector(sel);
 
 /* ================= UTILITÁRIOS ================= */
@@ -187,9 +222,7 @@ const fmtSize = b => {
   return b.toLocaleString('pt-BR',{maximumFractionDigits:b<10?1:0}) + ' ' + u[i];
 };
 const extOf = n => { const i = n.lastIndexOf('.'); return i > 0 ? n.slice(i).toLowerCase() : ''; };
-const cleanName = n => n.replace(/[\\/:*?"<>|]/g,'').trim().replace(/\.+$/,'');
 const samePath = (a,b) => a.length === b.length && a.every((x,i) => x === b[i]);
-const metaKey = (sec, path, name) => sec.dir + '/' + [...path, name].join('/');
 
 function toast(msg, kind=''){
   const t = document.createElement('div');
@@ -202,6 +235,23 @@ function busy(on, txt){
   if (txt) $('#busyTxt').textContent = txt;
 }
 
+/* ================= API ================= */
+async function api(rota, opcoes = {}){
+  const r = await fetch(rota, {
+    credentials:'same-origin',
+    headers: opcoes.corpo ? {'Content-Type':'application/json'} : undefined,
+    method: opcoes.corpo ? 'POST' : (opcoes.metodo || 'GET'),
+    body: opcoes.corpo ? JSON.stringify(opcoes.corpo) : undefined
+  });
+  let dados = {};
+  try { dados = await r.json(); } catch(e){}
+  if (!r.ok){
+    if (r.status === 401 && eu){ eu = null; telaLogin('Sua sessão expirou. Entre de novo.'); }
+    throw new Error(dados.erro || 'Falha de comunicação com o servidor.');
+  }
+  return dados;
+}
+
 /* ================= ÍCONES ================= */
 const IC = {
   logo:'<svg viewBox="0 0 48 48" fill="none"><rect x="4" y="10" width="40" height="30" rx="5" fill="#C9A048"/><path d="M4 16a5 5 0 015-5h10l4 5h16a5 5 0 015 5v1H4z" fill="#e0bb68"/><rect x="4" y="19" width="40" height="21" rx="5" fill="#C9A048" opacity=".92"/><rect x="12" y="26" width="24" height="3" rx="1.5" fill="#141942" opacity=".55"/><rect x="12" y="32" width="15" height="3" rx="1.5" fill="#141942" opacity=".55"/></svg>',
@@ -211,8 +261,11 @@ const IC = {
   tag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.3" fill="currentColor"/></svg>',
   open:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></svg>',
   trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
-  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h14l-4-4M20 16H6l4 4"/></svg>',
-  empty:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 12a4 4 0 014-4h11l4 5h17a4 4 0 014 4v21a4 4 0 01-4 4H8a4 4 0 01-4-4z"/></svg>'
+  empty:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 12a4 4 0 014-4h11l4 5h17a4 4 0 014 4v21a4 4 0 01-4 4H8a4 4 0 01-4-4z"/></svg>',
+  cog:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 14.5a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-1.8-.3 1.6 1.6 0 00-1 1.5v.2a2 2 0 11-4 0v-.1a1.6 1.6 0 00-1-1.5 1.6 1.6 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.6 1.6 0 00.3-1.8 1.6 1.6 0 00-1.5-1H3a2 2 0 110-4h.1a1.6 1.6 0 001.5-1 1.6 1.6 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.6 1.6 0 001.8.3H9a1.6 1.6 0 001-1.5V3a2 2 0 114 0v.1a1.6 1.6 0 001 1.5 1.6 1.6 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.6 1.6 0 00-.3 1.8V9a1.6 1.6 0 001.5 1h.2a2 2 0 110 4h-.1a1.6 1.6 0 00-1.5 1z"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18.5h2"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>',
+  sair:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10"/></svg>'
 };
 function fileIcon(name, sec){
   const e = extOf(name).replace('.','').toUpperCase().slice(0,4) || 'ARQ';
@@ -223,187 +276,120 @@ function fileIcon(name, sec){
   return `<div class="ico" style="background:${col}">${esc(e)}</div>`;
 }
 
-/* ================= INDEXEDDB (guarda a pasta escolhida) ================= */
-const idb = () => new Promise((res, rej) => {
-  const r = indexedDB.open('organizador-arquivos', 1);
-  r.onupgradeneeded = () => r.result.createObjectStore('kv');
-  r.onsuccess = () => res(r.result);
-  r.onerror = () => rej(r.error);
-});
-async function kvGet(k){
-  const db = await idb();
-  return new Promise((res, rej) => { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); });
-}
-async function kvSet(k, v){
-  const db = await idb();
-  return new Promise((res, rej) => { const t = db.transaction('kv','readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = res; t.onerror = () => rej(t.error); });
-}
-
-/* ================= SISTEMA DE ARQUIVOS ================= */
-async function exists(dir, name){
-  try { await dir.getFileHandle(name); return true; } catch(e){}
-  try { await dir.getDirectoryHandle(name); return true; } catch(e){}
-  return false;
-}
-async function uniqueName(dir, name){
-  if (!(await exists(dir, name))) return name;
-  const i = name.lastIndexOf('.');
-  const base = i > 0 ? name.slice(0,i) : name, ext = i > 0 ? name.slice(i) : '';
-  let n = 2;
-  while (await exists(dir, `${base} (${n})${ext}`)) n++;
-  return `${base} (${n})${ext}`;
-}
-async function saveFile(dir, file){
-  const name = await uniqueName(dir, file.name);
-  const fh = await dir.getFileHandle(name, {create:true});
-  const w = await fh.createWritable();
-  await file.stream().pipeTo(w);
-  return name;
-}
-async function copyDir(src, dst){
-  for await (const [n, h] of src.entries()){
-    if (h.kind === 'file') await saveFile(dst, await h.getFile());
-    else await copyDir(h, await dst.getDirectoryHandle(n, {create:true}));
-  }
-}
-async function getDir(secId, path){
-  let d = secHandles[secId];
-  for (const p of path) d = await d.getDirectoryHandle(p);
-  return d;
-}
-async function saveMeta(){
-  if (!connected) return;
-  const fh = await root.getFileHandle(META_FILE, {create:true});
-  const w = await fh.createWritable();
-  await w.write(JSON.stringify(meta, null, 1));
-  await w.close();
-}
-async function scanDir(sec, dir, path, out){
-  const entries = [];
-  for await (const e of dir.entries()) entries.push(e);
-  await Promise.all(entries.map(async ([name, h]) => {
-    if (h.kind === 'directory'){
-      out.push({kind:'dir', name, handle:h, parent:dir, path});
-      await scanDir(sec, h, [...path, name], out);
-    } else if (!name.startsWith('.')){
-      const f = await h.getFile();
-      out.push({kind:'file', name, handle:h, parent:dir, path, size:f.size, date:f.lastModified,
-        tipo:(meta.files[metaKey(sec, path, name)] || {}).tipo || ''});
-    }
-  }));
-}
-async function rescan(secId){
-  const sec = SECTIONS.find(s => s.id === secId);
-  const out = [];
-  await scanDir(sec, secHandles[secId], [], out);
-  cache[secId] = out;
-}
-async function rescanAll(){
-  await Promise.all(SECTIONS.map(s => rescan(s.id)));
-}
-
-/* ================= INICIALIZAÇÃO ================= */
+/* ================= ENTRADA ================= */
 async function init(){
-  if (!window.showDirectoryPicker){
-    $('#app').innerHTML = `<div class="center">${IC.logo.replace('<svg','<svg class="big"')}<h2>Navegador não suportado</h2>
-      <p>Este sistema grava pastas e arquivos reais no seu computador e precisa do <b>Google Chrome</b> ou do <b>Microsoft Edge</b> atualizado.</p></div>`;
-    return;
-  }
-  startFree();                       // entra direto no sistema, sem pedir pasta
-  let h = null;
-  try { h = await kvGet('root'); } catch(e){}
-  if (!h) return;
-  root = h;
-  let perm = 'prompt';
-  try { perm = await h.queryPermission({mode:'readwrite'}); } catch(e){}
-  if (perm === 'granted') await openRoot();
-  else renderRootInfo();
-}
-
-// abre a interface vazia: o usuário navega à vontade e conecta a pasta quando quiser
-function startFree(){
-  connected = false;
-  secHandles = {};
-  meta = {version:1, types:{}, files:{}};
-  for (const s of SECTIONS) if (s.typed) meta.types[s.id] = [...s.types];
-  cache = {};
-  for (const s of SECTIONS) cache[s.id] = [];
-  cur = {sec:'word', path:[]};
-  resetFilters();
-  buildShell();
-  render();
-}
-
-function renderRootInfo(){
-  const el = $('#rootinfo');
-  if (!el) return;
-  if (connected){
-    el.innerHTML = `Pasta do sistema: <b>${esc(root.name)}</b>
-      <button class="btn sm" id="swap">${IC.swap} Trocar</button>`;
-    $('#swap').onclick = pickRoot;
-  } else if (root){
-    el.innerHTML = `Pasta <b>${esc(root.name)}</b> aguardando autorização
-      <button class="btn sm primary" id="conn">Autorizar acesso</button>
-      <button class="btn sm" id="swap">${IC.swap} Trocar</button>`;
-    $('#conn').onclick = ensureRoot;
-    $('#swap').onclick = pickRoot;
-  } else {
-    el.innerHTML = `Nenhuma pasta conectada
-      <button class="btn sm primary" id="conn">Conectar pasta</button>`;
-    $('#conn').onclick = ensureRoot;
-  }
-}
-
-// chamado só quando a ação precisa mesmo mexer nos arquivos
-async function ensureRoot(){
-  if (connected) return true;
-  if (root){
+  const url = new URL(location.href);
+  const par = url.searchParams.get('par');
+  if (par){
+    busy(true, 'Conectando este aparelho...');
     try {
-      const p = await root.requestPermission({mode:'readwrite'});
-      if (p === 'granted'){ await openRoot(); return connected; }
-      toast('Acesso não autorizado.', 'err');
-    } catch(e){ toast('Não foi possível acessar a pasta.', 'err'); }
-    return false;
+      const r = await api('/api/auth?action=resgatar', {corpo:{token:par}});
+      eu = r.usuario;
+      history.replaceState(null, '', location.pathname);
+      busy(false);
+      toast('Aparelho conectado. Bem-vindo, ' + eu.nome + '!', 'ok');
+      return abrirSistema();
+    } catch(e){
+      busy(false);
+      history.replaceState(null, '', location.pathname);
+      return telaLogin(e.message);
+    }
   }
-  return await pickRoot();
-}
-async function pickRoot(){
+
+  busy(true, 'Carregando...');
   try {
-    const h = await window.showDirectoryPicker({id:'organizador', mode:'readwrite'});
-    root = h;
-    await kvSet('root', h);
-    await openRoot();
-    return connected;
+    const estado = await api('/api/auth?action=estado');
+    busy(false);
+    if (!estado.instalado) return telaInstalar();
+    if (!estado.usuario) return telaLogin();
+    eu = estado.usuario;
+    abrirSistema();
   } catch(e){
-    if (e.name !== 'AbortError') toast('Não foi possível usar essa pasta. Tente outra (por exemplo uma pasta nova).', 'err');
-    return false;
+    busy(false);
+    $('#app').innerHTML = `<div class="center">${IC.logo.replace('<svg','<svg class="big"')}
+      <h2>Sistema indisponível</h2><p>${esc(e.message)}</p>
+      <button class="btn primary" onclick="location.reload()">Tentar de novo</button></div>`;
   }
 }
-async function openRoot(){
-  busy(true, 'Abrindo pasta...');
-  try {
-    for (const s of SECTIONS) secHandles[s.id] = await root.getDirectoryHandle(s.dir, {create:true});
-    connected = true;
-    meta = {version:1, types:{}, files:{}};
+
+function telaInstalar(){
+  $('#app').innerHTML = `<div class="center">${IC.logo.replace('<svg','<svg class="big"')}
+    <h2>Primeiro acesso</h2>
+    <p>Crie a conta de administrador do sistema. Com ela você entra, envia arquivos e libera o acesso de outras pessoas.</p>
+    <label class="f">Seu nome</label><input id="nome" autocomplete="name" placeholder="Ex.: Jean">
+    <label class="f">Usuário</label><input id="usuario" autocomplete="username" placeholder="Ex.: jean">
+    <label class="f">Senha (mínimo 6 caracteres)</label><input id="senha" type="password" autocomplete="new-password">
+    <button class="btn primary" id="ok">Criar administrador</button>
+    <div class="erro" id="erro"></div></div>`;
+  const enviar = async () => {
+    const corpo = {nome:$('#nome').value, usuario:$('#usuario').value, senha:$('#senha').value};
+    $('#ok').disabled = true; $('#erro').textContent = '';
     try {
-      const fh = await root.getFileHandle(META_FILE);
-      const saved = JSON.parse(await (await fh.getFile()).text());
-      meta.types = saved.types || {}; meta.files = saved.files || {};
-    } catch(e){}
-    for (const s of SECTIONS) if (s.typed && !meta.types[s.id]) meta.types[s.id] = [...s.types];
-    await saveMeta();
-    await rescanAll();
-    cur = {sec:cur.sec, path:[]};
+      const r = await api('/api/auth?action=instalar', {corpo});
+      eu = r.usuario;
+      abrirSistema();
+    } catch(e){ $('#erro').textContent = e.message; $('#ok').disabled = false; }
+  };
+  $('#ok').onclick = enviar;
+  $('#senha').onkeydown = e => { if (e.key === 'Enter') enviar(); };
+  $('#nome').focus();
+}
+
+function telaLogin(aviso){
+  $('#app').innerHTML = `<div class="center">${IC.logo.replace('<svg','<svg class="big"')}
+    <h2>Organizador de Arquivos</h2>
+    <p>Entre para ver e organizar os documentos.</p>
+    <label class="f">Usuário</label><input id="usuario" autocomplete="username">
+    <label class="f">Senha</label><input id="senha" type="password" autocomplete="current-password">
+    <button class="btn primary" id="ok">Entrar</button>
+    <div class="erro" id="erro">${aviso ? esc(aviso) : ''}</div></div>`;
+  const enviar = async () => {
+    $('#ok').disabled = true; $('#erro').textContent = '';
+    try {
+      const r = await api('/api/auth?action=entrar', {corpo:{usuario:$('#usuario').value, senha:$('#senha').value}});
+      eu = r.usuario;
+      abrirSistema();
+    } catch(e){ $('#erro').textContent = e.message; $('#ok').disabled = false; }
+  };
+  $('#ok').onclick = enviar;
+  $('#senha').onkeydown = e => { if (e.key === 'Enter') enviar(); };
+  $('#usuario').focus();
+}
+
+async function abrirSistema(){
+  busy(true, 'Carregando arquivos...');
+  try {
+    cur = {sec:'word', path:[]};
     resetFilters();
+    await Promise.all(SECOES.map(s => carregarSecao(s.id)));
     buildShell();
     render();
-    toast('Pasta conectada: ' + root.name, 'ok');
   } catch(e){
-    console.error(e);
-    connected = false;
-    toast('Erro ao abrir a pasta: ' + e.message, 'err');
-    startFree();
+    toast(e.message, 'err');
   } finally { busy(false); }
+}
+
+// traz do servidor a lista completa de uma aba
+async function carregarSecao(secId){
+  const r = await api('/api/arquivos?action=listar&secao=' + secId);
+  const sec = SECOES.find(s => s.id === secId);
+  dados[secId] = {
+    tipos: r.tipos || [],
+    itens: r.itens.map(i => i.tipo === 'pasta'
+      ? {kind:'dir', name:i.nome, seg:i.seg, path:i.caminho,
+         pathname:'arquivos/' + sec.dir + '/' + [...i.caminho, i.seg].join('/') + '/'}
+      : {kind:'file', name:i.nome, seg:i.seg, path:i.caminho, pathname:i.pathname,
+         size:i.tamanho, date:i.data, tipo:i.classe})
+  };
+}
+
+// o caminho guardado usa o nome técnico; aqui traduzimos para o nome que a pessoa vê
+function nomesDoCaminho(path){
+  const mapa = {};
+  for (const it of ((dados[cur.sec] || {}).itens || [])){
+    if (it.kind === 'dir') mapa[[...it.path, it.seg].join('/')] = it.name;
+  }
+  return path.map((seg, i) => mapa[path.slice(0, i+1).join('/')] || seg);
 }
 
 /* ================= INTERFACE ================= */
@@ -411,9 +397,17 @@ function buildShell(){
   $('#app').innerHTML = `
   <header>
     <div class="brand">${IC.logo}<h1>Organizador de Arquivos</h1></div>
-    <div class="rootinfo" id="rootinfo"></div>
+    <div class="rootinfo">${IC.user.replace('<svg','<svg style="width:16px;height:16px;vertical-align:-3px"')}
+      <b>${esc(eu.nome)}</b>${eu.admin ? '<span class="badge">admin</span>' : ''}
+      <button class="btn sm" id="sair">${IC.sair} Sair</button></div>
   </header>
   <nav class="tabs" id="tabs"></nav>
+  <div id="miolo"></div>`;
+  $('#sair').onclick = sair;
+}
+
+function corpoArquivos(){
+  $('#miolo').innerHTML = `
   <div class="toolbar">
     <div class="crumbs" id="crumbs"></div>
     <div class="actions" id="actions"></div>
@@ -429,7 +423,6 @@ function buildShell(){
     <div class="dropmsg">Solte os arquivos aqui para enviar</div>
     <div id="list"></div>
   </div>`;
-  renderRootInfo();
 
   let tm;
   $('#fq').oninput = e => { clearTimeout(tm); tm = setTimeout(() => { filt.q = e.target.value.trim(); render(); }, 120); };
@@ -446,9 +439,8 @@ function buildShell(){
   c.addEventListener('drop', e => {
     if (!hasFiles(e)) return;
     e.preventDefault(); depth = 0; c.classList.remove('drag');
-    const ps = [...e.dataTransfer.items].filter(i => i.kind === 'file')
-      .map(i => i.getAsFileSystemHandle ? i.getAsFileSystemHandle() : Promise.resolve(null));
-    handleDrop(ps, [...e.dataTransfer.files]);
+    const arquivos = [...e.dataTransfer.files];
+    if (arquivos.length) startUpload(arquivos);
   });
   $('#list').addEventListener('click', onListClick);
 }
@@ -456,35 +448,39 @@ const hasFiles = e => e.dataTransfer && [...e.dataTransfer.types].includes('File
 
 function resetFilters(){ filt.q = ''; filt.tipo = ''; filt.from = ''; filt.to = ''; }
 function syncFilterInputs(){
+  if (!$('#fq')) return;
   $('#fq').value = filt.q; $('#ff').value = filt.from; $('#fu').value = filt.to;
   fillTypeFilter();
 }
 function fillTypeFilter(){
   const sec = S();
-  $('#ftWrap').classList.toggle('hide', !sec.typed);
-  if (!sec.typed) return;
-  const types = meta.types[sec.id] || [];
-  $('#ft').innerHTML = `<option value="">Todos</option>` + types.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
-  $('#ft').value = types.includes(filt.tipo) ? filt.tipo : '';
+  if (!$('#ftWrap')) return;
+  $('#ftWrap').classList.toggle('hide', !sec.tipado);
+  if (!sec.tipado) return;
+  const tipos = (dados[sec.id] || {}).tipos || [];
+  $('#ft').innerHTML = `<option value="">Todos</option>` + tipos.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  $('#ft').value = tipos.includes(filt.tipo) ? filt.tipo : '';
   if ($('#ft').value !== filt.tipo) filt.tipo = '';
 }
 
 function renderTabs(){
-  $('#tabs').innerHTML = SECTIONS.map(s => {
-    const n = (cache[s.id] || []).filter(i => i.kind === 'file').length;
+  const abas = SECOES.map(s => {
+    const n = ((dados[s.id] || {}).itens || []).filter(i => i.kind === 'file').length;
     return `<button class="tab ${s.id === cur.sec ? 'active' : ''}" data-sec="${s.id}">
       <span class="dot" style="background:${s.color}"></span>${s.label}<span class="count">${n.toLocaleString('pt-BR')}</span></button>`;
   }).join('');
+  $('#tabs').innerHTML = abas +
+    `<button class="tab ${cur.sec === 'config' ? 'active' : ''}" data-sec="config">${IC.cog} Configurações</button>`;
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
     cur = {sec:b.dataset.sec, path:[]};
-    resetFilters(); syncFilterInputs(); render();
+    resetFilters(); render();
   });
 }
 
 function isSearching(){ return !!(filt.q || filt.tipo || filt.from || filt.to); }
 
 function getVisible(){
-  const sec = S(), all = cache[sec.id] || [];
+  const sec = S(), all = (dados[sec.id] || {}).itens || [];
   const q = filt.q.toLowerCase();
   const from = filt.from ? new Date(filt.from + 'T00:00:00').getTime() : null;
   const to = filt.to ? new Date(filt.to + 'T23:59:59.999').getTime() : null;
@@ -518,13 +514,14 @@ function getVisible(){
 
 function render(){
   renderTabs();
-  fillTypeFilter();
+  if (cur.sec === 'config') return telaConfig();
+  if (!$('#content')) corpoArquivos();
+  syncFilterInputs();
   const sec = S();
   view = getVisible();
 
-  // breadcrumb
   const parts = [{label:sec.label, path:[]}];
-  cur.path.forEach((p, i) => parts.push({label:p, path:cur.path.slice(0, i+1)}));
+  nomesDoCaminho(cur.path).forEach((nome, i) => parts.push({label:nome, path:cur.path.slice(0, i+1)}));
   if (isSearching()){
     const nf = view.filter(v => v.kind === 'file').length;
     $('#crumbs').innerHTML = `<span class="res">Resultados da busca em <b style="color:var(--text)">${esc(sec.label)}</b>: <b>${nf.toLocaleString('pt-BR')}</b> arquivo${nf === 1 ? '' : 's'}</span>`;
@@ -538,15 +535,12 @@ function render(){
     });
   }
 
-  // ações
   $('#actions').innerHTML =
     `<button class="btn" id="aFolder">${IC.plus} Nova pasta</button>` +
-    (sec.typed ? `<button class="btn" id="aTypes">${IC.tag} Tipos</button>` : '') +
-    (!sec.typed ? `<button class="btn" id="aDirUp">${IC.upload} Enviar pasta</button>` : '') +
+    (sec.tipado ? `<button class="btn" id="aTypes">${IC.tag} Tipos</button>` : '') +
     `<button class="btn primary" id="aUp">${IC.upload} Enviar arquivos</button>`;
   $('#aFolder').onclick = newFolder;
-  if (sec.typed) $('#aTypes').onclick = manageTypes;
-  if (!sec.typed) $('#aDirUp').onclick = pickFolderToUpload;
+  if (sec.tipado) $('#aTypes').onclick = manageTypes;
   $('#aUp').onclick = pickFiles;
 
   renderList();
@@ -554,51 +548,43 @@ function render(){
 
 function renderList(){
   const sec = S();
-  if (!connected){
-    $('#list').innerHTML = `<div class="empty">${IC.empty}
-      <p style="font-size:17px;color:var(--text)">Você está navegando no sistema</p>
-      <p>Explore as abas e os filtros à vontade. Quando quiser adicionar arquivos, conecte uma pasta do seu computador — o sistema cria sozinho as subpastas <b>Word</b>, <b>PowerPoint</b>, <b>Excel</b> e <b>Download</b>.</p>
-      <button class="btn primary" id="connBig" style="margin-top:14px">Conectar pasta e adicionar arquivos</button></div>`;
-    $('#connBig').onclick = ensureRoot;
-    return;
-  }
   if (!view.length){
     $('#list').innerHTML = `<div class="empty">${IC.empty}<p style="font-size:17px;color:var(--text)">${isSearching() ? 'Nenhum resultado encontrado' : 'Esta pasta está vazia'}</p>
-      <p>${isSearching() ? 'Ajuste ou limpe os filtros.' : 'Arraste arquivos para cá ou use o botão <b>Enviar arquivos</b>.'}</p></div>`;
+      <p>${isSearching() ? 'Ajuste ou limpe os filtros.' : 'Use o botão <b>Enviar arquivos</b> para adicionar documentos.'}</p></div>`;
     return;
   }
-  const all = cache[sec.id] || [];
+  const all = (dados[sec.id] || {}).itens || [];
   const searching = isSearching();
   const arrow = k => filt.sort === k ? `<span class="arr">${filt.dir === 'asc' ? '▲' : '▼'}</span>` : '';
   const rows = view.map((it, idx) => {
-    const loc = searching ? `<div class="loc">${esc([sec.dir, ...it.path].join(' / '))}</div>` : '';
+    const loc = searching ? `<div class="loc">${esc([sec.dir, ...nomesDoCaminho(it.path)].join(' / '))}</div>` : '';
     if (it.kind === 'dir'){
       const full = [...it.path, it.name];
-      const n = all.filter(x => samePath(x.path, full)).length;
+      const n = all.filter(x => x.kind === 'file' && x.path.length >= full.length && full.every((p, i) => x.path[i] === p)).length;
       return `<tr>
         <td><div class="name folderlink" data-act="enter" data-i="${idx}"><div class="ico folder">${IC.folder}</div>
           <div class="t"><div class="n">${esc(it.name)}</div>${loc}</div></div></td>
-        <td class="col-tipo dim">Pasta</td>
-        <td class="dim">—</td>
-        <td class="col-size"><span class="gold">${n.toLocaleString('pt-BR')}</span> <span class="dim">${n === 1 ? 'item' : 'itens'}</span></td>
+        <td class="meta"><span class="dim">Pasta</span></td>
+        <td class="meta"><span class="gold">${n.toLocaleString('pt-BR')}</span> <span class="dim">${n === 1 ? 'arquivo' : 'arquivos'}</span></td>
+        <td class="meta"><span class="dim">—</span></td>
         <td><div class="rowact">
           <button class="iconbtn del" title="Excluir pasta" data-act="del" data-i="${idx}">${IC.trash}</button></div></td></tr>`;
     }
     return `<tr>
       <td><div class="name">${fileIcon(it.name, sec)}<div class="t"><div class="n">${esc(it.name)}</div>${loc}</div></div></td>
-      <td class="col-tipo">${sec.typed ? (it.tipo ? `<span class="badge">${esc(it.tipo)}</span>` : '<span class="dim">—</span>') : '<span class="dim">' + esc(extOf(it.name).replace('.','').toUpperCase() || '—') + '</span>'}</td>
-      <td class="gold">${fmtDate(it.date)}</td>
-      <td class="col-size gold">${fmtSize(it.size)}</td>
+      <td class="meta">${sec.tipado ? (it.tipo ? `<span class="badge">${esc(it.tipo)}</span>` : '<span class="dim">sem tipo</span>') : '<span class="dim">' + esc(extOf(it.name).replace('.','').toUpperCase() || '—') + '</span>'}</td>
+      <td class="meta gold">${fmtDate(it.date)}</td>
+      <td class="meta gold">${fmtSize(it.size)}</td>
       <td><div class="rowact">
         <button class="iconbtn" title="Abrir / baixar" data-act="open" data-i="${idx}">${IC.open}</button>
-        ${sec.typed ? `<button class="iconbtn" title="Alterar tipo" data-act="tipo" data-i="${idx}">${IC.tag}</button>` : ''}
+        ${sec.tipado ? `<button class="iconbtn" title="Alterar tipo" data-act="tipo" data-i="${idx}">${IC.tag}</button>` : ''}
         <button class="iconbtn del" title="Excluir" data-act="del" data-i="${idx}">${IC.trash}</button></div></td></tr>`;
   }).join('');
   $('#list').innerHTML = `<table><thead><tr>
     <th class="sortable" data-sort="name">Nome ${arrow('name')}</th>
-    <th class="sortable col-tipo" data-sort="${sec.typed ? 'tipo' : 'name'}">${sec.typed ? 'Tipo ' + arrow('tipo') : 'Formato'}</th>
+    <th class="sortable" data-sort="${sec.tipado ? 'tipo' : 'name'}">${sec.tipado ? 'Tipo ' + arrow('tipo') : 'Formato'}</th>
     <th class="sortable" data-sort="date">Data ${arrow('date')}</th>
-    <th class="sortable col-size" data-sort="size">Tamanho ${arrow('size')}</th>
+    <th class="sortable" data-sort="size">Tamanho ${arrow('size')}</th>
     <th></th></tr></thead><tbody>${rows}</tbody></table>`;
   document.querySelectorAll('th[data-sort]').forEach(th => th.onclick = () => {
     const k = th.dataset.sort;
@@ -614,7 +600,7 @@ function onListClick(e){
   const it = view[+el.dataset.i];
   if (!it) return;
   const act = el.dataset.act;
-  if (act === 'enter'){ cur.path = [...it.path, it.name]; resetFilters(); syncFilterInputs(); render(); }
+  if (act === 'enter'){ cur.path = [...it.path, it.seg]; resetFilters(); render(); }
   else if (act === 'open') openItem(it);
   else if (act === 'tipo') editType(it);
   else if (act === 'del') deleteItem(it);
@@ -641,32 +627,31 @@ function openModal(title, bodyHtml, buttons){
   return {ov, close};
 }
 
-/* ================= AÇÕES ================= */
-async function refreshSec(){
-  if (!connected) return render();
-  await rescan(cur.sec);
-  // se a pasta atual deixou de existir, volta para a raiz da aba
-  const all = cache[cur.sec];
+/* ================= AÇÕES EM ARQUIVOS ================= */
+async function recarregar(){
+  await carregarSecao(cur.sec);
+  // se a pasta aberta deixou de existir, volta um nível
+  const itens = dados[cur.sec].itens;
   for (let i = 1; i <= cur.path.length; i++){
     const p = cur.path.slice(0, i);
-    if (!all.some(x => x.kind === 'dir' && samePath(x.path, p.slice(0,-1)) && x.name === p[p.length-1])){ cur.path = p.slice(0,-1); break; }
+    const existe = itens.some(x => x.kind === 'dir' && samePath(x.path, p.slice(0,-1)) && x.seg === p[p.length-1]);
+    if (!existe){ cur.path = p.slice(0,-1); break; }
   }
   render();
 }
 
-async function newFolder(){
-  if (!await ensureRoot()) return;
-  const {ov, close} = openModal('Nova pasta',
+function newFolder(){
+  const {ov} = openModal('Nova pasta',
     `<label class="f" style="margin-top:0">Nome da pasta</label><input id="nfName" type="text" maxlength="100" placeholder="Ex.: Políticas 2026" autocomplete="off">`,
     [{label:'Cancelar'}, {label:'Criar pasta', cls:'primary', fn: async (close, ov) => {
-      const name = cleanName($('#nfName', ov).value);
-      if (!name) return toast('Digite um nome válido.', 'err');
+      const nome = $('#nfName', ov).value.trim();
+      if (!nome) return toast('Digite um nome válido.', 'err');
+      busy(true, 'Criando pasta...');
       try {
-        const dir = await getDir(cur.sec, cur.path);
-        if (await exists(dir, name)) return toast('Já existe um item com esse nome.', 'err');
-        await dir.getDirectoryHandle(name, {create:true});
-        close(); await refreshSec(); toast('Pasta criada.', 'ok');
-      } catch(e){ toast('Erro ao criar pasta: ' + e.message, 'err'); }
+        await api('/api/arquivos?action=pasta', {corpo:{secao:cur.sec, caminho:cur.path, nome}});
+        close(); await recarregar(); toast('Pasta criada.', 'ok');
+      } catch(e){ toast(e.message, 'err'); }
+      finally { busy(false); }
     }}]);
   $('#nfName', ov).addEventListener('keydown', e => { if (e.key === 'Enter') $('.btn.primary', ov).click(); });
 }
@@ -676,86 +661,84 @@ function deleteItem(it){
   let extra = '';
   if (isDir){
     const full = [...it.path, it.name];
-    const n = (cache[cur.sec] || []).filter(x => x.kind === 'file' && x.path.length >= full.length && full.every((p, i) => x.path[i] === p)).length;
+    const n = ((dados[cur.sec] || {}).itens || []).filter(x => x.kind === 'file' && x.path.length >= full.length && full.every((p, i) => x.path[i] === p)).length;
     extra = n ? ` Ela contém <b class="gold">${n.toLocaleString('pt-BR')}</b> arquivo${n === 1 ? '' : 's'} que também ser${n === 1 ? 'á' : 'ão'} excluído${n === 1 ? '' : 's'}.` : '';
   }
   openModal(isDir ? 'Excluir pasta' : 'Excluir arquivo',
     `<p>Excluir <b style="color:var(--text)">${esc(it.name)}</b>?${extra} Esta ação não pode ser desfeita.</p>`,
     [{label:'Cancelar'}, {label:'Excluir', cls:'danger', fn: async close => {
+      busy(true, 'Excluindo...');
       try {
-        await it.parent.removeEntry(it.name, {recursive:true});
-        const sec = S(), prefix = metaKey(sec, it.path, it.name);
-        for (const k of Object.keys(meta.files)) if (k === prefix || k.startsWith(prefix + '/')) delete meta.files[k];
-        await saveMeta();
-        close(); await refreshSec(); toast('Excluído.', 'ok');
-      } catch(e){ toast('Erro ao excluir: ' + e.message, 'err'); }
+        await api('/api/arquivos?action=excluir', {corpo:{pathname:it.pathname, pasta:isDir}});
+        close(); await recarregar(); toast('Excluído.', 'ok');
+      } catch(e){ toast(e.message, 'err'); }
+      finally { busy(false); }
     }}]);
 }
 
-async function openItem(it){
-  try {
-    const f = await it.handle.getFile();
-    const url = URL.createObjectURL(f);
-    if (/\.(pdf|png|jpe?g|gif|webp|svg|txt)$/i.test(it.name)) window.open(url, '_blank');
-    else { const a = document.createElement('a'); a.href = url; a.download = it.name; document.body.appendChild(a); a.click(); a.remove(); }
-    setTimeout(() => URL.revokeObjectURL(url), 120000);
-  } catch(e){ toast('Não foi possível abrir o arquivo.', 'err'); }
+function openItem(it){
+  window.open('/api/arquivos?action=baixar&p=' + encodeURIComponent(it.pathname), '_blank');
 }
 
-function typeOptions(types, selected){
-  return `<option value="">— sem tipo —</option>` + types.map(t => `<option value="${esc(t)}" ${t === selected ? 'selected' : ''}>${esc(t)}</option>`).join('');
+function typeOptions(tipos, selecionado){
+  return `<option value="">— sem tipo —</option>` + tipos.map(t => `<option value="${esc(t)}" ${t === selecionado ? 'selected' : ''}>${esc(t)}</option>`).join('');
 }
 
 function editType(it){
-  const sec = S(), types = meta.types[sec.id] || [];
+  const tipos = (dados[cur.sec] || {}).tipos || [];
   openModal('Alterar tipo',
-    `<p>${esc(it.name)}</p><label class="f" style="margin-top:0">Tipo</label><select id="etSel">${typeOptions(types, it.tipo)}</select>`,
+    `<p>${esc(it.name)}</p><label class="f" style="margin-top:0">Tipo</label><select id="etSel">${typeOptions(tipos, it.tipo)}</select>`,
     [{label:'Cancelar'}, {label:'Salvar', cls:'primary', fn: async (close, ov) => {
       const v = $('#etSel', ov).value;
-      const k = metaKey(sec, it.path, it.name);
-      if (v) meta.files[k] = {tipo:v}; else delete meta.files[k];
-      it.tipo = v;
-      await saveMeta(); close(); render(); toast('Tipo atualizado.', 'ok');
+      try {
+        await api('/api/arquivos?action=tipo', {corpo:{pathname:it.pathname, tipo:v}});
+        it.tipo = v; close(); render(); toast('Tipo atualizado.', 'ok');
+      } catch(e){ toast(e.message, 'err'); }
     }}]);
 }
 
 function manageTypes(){
-  const sec = S();
-  const draw = ov => {
-    const types = meta.types[sec.id] || [];
-    $('#tmList', ov).innerHTML = types.length
-      ? types.map((t, i) => `<span class="chip">${esc(t)}<button data-rm="${i}" title="Remover">×</button></span>`).join('')
+  const secId = cur.sec;
+  const desenhar = ov => {
+    const tipos = dados[secId].tipos || [];
+    $('#tmList', ov).innerHTML = tipos.length
+      ? tipos.map((t, i) => `<span class="chip">${esc(t)}<button data-rm="${i}" title="Remover">×</button></span>`).join('')
       : '<span class="dim">Nenhum tipo cadastrado.</span>';
     ov.querySelectorAll('[data-rm]').forEach(b => b.onclick = async () => {
-      meta.types[sec.id].splice(+b.dataset.rm, 1);
-      await saveMeta(); draw(ov); fillTypeFilter();
+      const lista = tipos.slice();
+      lista.splice(+b.dataset.rm, 1);
+      await salvarTipos(secId, lista, ov, desenhar);
     });
   };
-  const {ov} = openModal('Tipos de ' + sec.dir,
+  const {ov} = openModal('Tipos de ' + SECOES.find(s => s.id === secId).dir,
     `<p>Os tipos servem para classificar e filtrar os arquivos desta aba. Remover um tipo não apaga os arquivos.</p>
      <div class="typelist" id="tmList"></div>
      <label class="f">Novo tipo</label>
      <div class="inline"><input id="tmNew" type="text" maxlength="30" placeholder="Ex.: MAN" autocomplete="off"><button class="btn primary" id="tmAdd">Adicionar</button></div>`,
     [{label:'Fechar', cls:'primary', fn: close => { close(); render(); }}]);
-  draw(ov);
+  desenhar(ov);
   const add = async () => {
     const v = $('#tmNew', ov).value.trim();
     if (!v) return;
-    const list = meta.types[sec.id] || (meta.types[sec.id] = []);
-    if (list.some(t => t.toLowerCase() === v.toLowerCase())) return toast('Esse tipo já existe.', 'err');
-    list.push(v); await saveMeta(); $('#tmNew', ov).value = ''; draw(ov); fillTypeFilter();
+    const lista = (dados[secId].tipos || []).slice();
+    if (lista.some(t => t.toLowerCase() === v.toLowerCase())) return toast('Esse tipo já existe.', 'err');
+    lista.push(v);
+    $('#tmNew', ov).value = '';
+    await salvarTipos(secId, lista, ov, desenhar);
   };
   $('#tmAdd', ov).onclick = add;
   $('#tmNew', ov).addEventListener('keydown', e => { if (e.key === 'Enter') add(); });
 }
+async function salvarTipos(secId, lista, ov, desenhar){
+  try {
+    const r = await api('/api/arquivos?action=tipos', {corpo:{secao:secId, lista}});
+    dados[secId].tipos = r.tipos;
+    desenhar(ov); fillTypeFilter();
+  } catch(e){ toast(e.message, 'err'); }
+}
 
 /* ================= ENVIO ================= */
-async function pickFiles(){
-  if (!connected){
-    await ensureRoot();
-    if (connected) toast('Pasta conectada. Clique em Enviar arquivos novamente.', 'ok');
-    return;
-  }
+function pickFiles(){
   const sec = S();
   const inp = document.createElement('input');
   inp.type = 'file'; inp.multiple = true;
@@ -763,109 +746,215 @@ async function pickFiles(){
   inp.onchange = () => { if (inp.files.length) startUpload([...inp.files]); };
   inp.click();
 }
-async function pickFolderToUpload(){
-  if (!connected){
-    await ensureRoot();
-    if (connected) toast('Pasta conectada. Clique em Enviar pasta novamente.', 'ok');
-    return;
-  }
-  try {
-    const h = await window.showDirectoryPicker({id:'organizador-envio'});
-    busy(true, 'Copiando pasta...');
-    const dir = await getDir(cur.sec, cur.path);
-    const nd = await dir.getDirectoryHandle(await uniqueName(dir, h.name), {create:true});
-    await copyDir(h, nd);
-    await refreshSec(); await rescanAll(); renderTabs();
-    toast('Pasta enviada.', 'ok');
-  } catch(e){ if (e.name !== 'AbortError') toast('Erro ao enviar pasta: ' + e.message, 'err'); }
-  finally { busy(false); }
-}
-async function handleDrop(ps, fallback){
-  if (!connected){
-    await ensureRoot();
-    if (connected) toast('Pasta conectada. Arraste os arquivos novamente.', 'ok');
-    return;
-  }
-  const sec = S();
-  let handles = (await Promise.all(ps)).filter(Boolean);
-  if (!handles.length && fallback.length) handles = fallback.map(f => ({kind:'file', getFile: async () => f, name:f.name}));
-  const files = [], dirs = [];
-  for (const h of handles){ if (h.kind === 'file') files.push(await h.getFile()); else dirs.push(h); }
-  if (!sec.typed){
-    busy(true, 'Enviando...');
-    try {
-      const dir = await getDir(cur.sec, cur.path);
-      for (const f of files) await saveFile(dir, f);
-      for (const d of dirs){
-        const nd = await dir.getDirectoryHandle(await uniqueName(dir, d.name), {create:true});
-        await copyDir(d, nd);
-      }
-      await refreshSec(); await rescanAll(); renderTabs();
-      toast('Envio concluído.', 'ok');
-    } catch(e){ toast('Erro no envio: ' + e.message, 'err'); }
-    finally { busy(false); }
-  } else {
-    if (dirs.length) toast('Pastas só podem ser enviadas na aba Download. Crie uma pasta aqui e envie os arquivos dentro dela.', 'err');
-    if (files.length) startUpload(files);
-  }
-}
 
-function guessType(name, types){
+function guessType(name, tipos){
   const up = name.toUpperCase();
-  const sorted = [...types].sort((a, b) => b.length - a.length);
-  for (const t of sorted){
+  const ordenados = [...tipos].sort((a, b) => b.length - a.length);
+  for (const t of ordenados){
     const T = t.toUpperCase();
     if (up.startsWith(T) && (up.length === T.length || !/[A-Z0-9À-Ü]/i.test(up[T.length]))) return t;
   }
   return '';
 }
 
-function startUpload(files){
+function startUpload(arquivos){
   const sec = S();
-  let list = files;
+  let lista = arquivos;
   if (sec.exts){
-    const bad = files.filter(f => !sec.exts.includes(extOf(f.name)));
-    list = files.filter(f => sec.exts.includes(extOf(f.name)));
-    if (bad.length) toast(`${bad.length} arquivo${bad.length > 1 ? 's' : ''} ignorado${bad.length > 1 ? 's' : ''} (formato não pertence a esta aba): ${bad.slice(0,3).map(f => f.name).join(', ')}${bad.length > 3 ? '...' : ''}`, 'err');
+    const fora = arquivos.filter(f => !sec.exts.includes(extOf(f.name)));
+    lista = arquivos.filter(f => sec.exts.includes(extOf(f.name)));
+    if (fora.length) toast(`${fora.length} arquivo${fora.length > 1 ? 's' : ''} ignorado${fora.length > 1 ? 's' : ''} (formato não pertence a esta aba): ${fora.slice(0,3).map(f => f.name).join(', ')}${fora.length > 3 ? '...' : ''}`, 'err');
   }
-  if (!list.length) return;
-  if (!sec.typed) return doUpload(list.map(f => ({file:f, tipo:''})));
+  if (!lista.length) return;
+  if (!sec.tipado) return doUpload(lista.map(f => ({file:f, tipo:''})));
 
-  const types = meta.types[sec.id] || [];
-  const choice = list.map(f => guessType(f.name, types));
-  const rows = list.map((f, i) => `<div class="uprow"><div><div class="fn" title="${esc(f.name)}">${esc(f.name)}</div><div class="fs">${fmtSize(f.size)}</div></div>
-      <select data-up="${i}">${typeOptions(types, choice[i])}</select></div>`).join('');
-  const {ov} = openModal(`Enviar ${list.length} arquivo${list.length > 1 ? 's' : ''}`,
+  const tipos = (dados[sec.id] || {}).tipos || [];
+  const escolha = lista.map(f => guessType(f.name, tipos));
+  const linhas = lista.map((f, i) => `<div class="uprow"><div><div class="fn" title="${esc(f.name)}">${esc(f.name)}</div><div class="fs">${fmtSize(f.size)}</div></div>
+      <select data-up="${i}">${typeOptions(tipos, escolha[i])}</select></div>`).join('');
+  const {ov} = openModal(`Enviar ${lista.length} arquivo${lista.length > 1 ? 's' : ''}`,
     `<p>Escolha o tipo de cada documento. Se o nome começa com o código (ex.: <b>POL</b> - Política...), o tipo já vem preenchido.</p>
-     ${list.length > 1 ? `<label class="f" style="margin-top:0">Aplicar o mesmo tipo a todos</label><select id="upAll">${typeOptions(types, '')}</select><div style="height:10px"></div>` : ''}
-     <div id="upRows">${rows}</div>`,
+     ${lista.length > 1 ? `<label class="f" style="margin-top:0">Aplicar o mesmo tipo a todos</label><select id="upAll">${typeOptions(tipos, '')}</select><div style="height:10px"></div>` : ''}
+     <div id="upRows">${linhas}</div>`,
     [{label:'Cancelar'}, {label:'Enviar', cls:'primary', fn: async close => {
-      const entries = list.map((f, i) => ({file:f, tipo:$(`[data-up="${i}"]`, ov).value}));
-      close(); doUpload(entries);
+      const entradas = lista.map((f, i) => ({file:f, tipo:$(`[data-up="${i}"]`, ov).value}));
+      close(); doUpload(entradas);
     }}]);
-  const all = $('#upAll', ov);
-  if (all) all.onchange = () => ov.querySelectorAll('[data-up]').forEach(s => s.value = all.value);
+  const todos = $('#upAll', ov);
+  if (todos) todos.onchange = () => ov.querySelectorAll('[data-up]').forEach(s => s.value = todos.value);
 }
 
-async function doUpload(entries){
-  const sec = S();
+// envia o arquivo direto do navegador para o armazenamento, sem limite de tamanho
+function enviarArquivo(url, file, aoProgredir){
+  return new Promise((ok, erro) => {
+    const x = new XMLHttpRequest();
+    x.open('PUT', url);
+    x.setRequestHeader('x-content-type', file.type || 'application/octet-stream');
+    x.upload.onprogress = e => { if (e.lengthComputable) aoProgredir(e.loaded / e.total); };
+    x.onload = () => (x.status >= 200 && x.status < 300) ? ok() : erro(new Error('O armazenamento recusou o arquivo (' + x.status + ').'));
+    x.onerror = () => erro(new Error('Falha de rede durante o envio.'));
+    x.send(file);
+  });
+}
+
+async function doUpload(entradas){
   busy(true, 'Enviando...');
   let ok = 0;
   try {
-    const dir = await getDir(cur.sec, cur.path);
-    for (let i = 0; i < entries.length; i++){
-      $('#busyTxt').textContent = `Enviando ${i + 1} de ${entries.length}...`;
-      const name = await saveFile(dir, entries[i].file);
-      if (entries[i].tipo) meta.files[metaKey(sec, cur.path, name)] = {tipo:entries[i].tipo};
+    for (let i = 0; i < entradas.length; i++){
+      const {file, tipo} = entradas[i];
+      const rotulo = `Enviando ${i + 1} de ${entradas.length}`;
+      $('#busyTxt').textContent = rotulo + '...';
+      const destino = await api('/api/arquivos?action=enviar', {
+        corpo:{secao:cur.sec, caminho:cur.path, nome:file.name, contentType:file.type || 'application/octet-stream'}
+      });
+      await enviarArquivo(destino.url, file, p => {
+        $('#busyTxt').textContent = `${rotulo} — ${Math.round(p * 100)}%`;
+      });
+      await api('/api/arquivos?action=confirmar', {corpo:{pathname:destino.pathname, tipo, nome:file.name}});
       ok++;
     }
-    await saveMeta();
-    await refreshSec();
+    await recarregar();
     toast(`${ok} arquivo${ok > 1 ? 's' : ''} enviado${ok > 1 ? 's' : ''}.`, 'ok');
   } catch(e){
     toast('Erro no envio: ' + e.message, 'err');
-    if (ok){ await saveMeta().catch(()=>{}); await refreshSec(); }
+    if (ok) await recarregar();
   } finally { busy(false); }
+}
+
+/* ================= CONFIGURAÇÕES ================= */
+function telaConfig(){
+  $('#miolo').innerHTML = `
+  <div class="card">
+    <h3>${IC.phone} Conectar com dispositivo móvel</h3>
+    <p>Gere um QR Code e leia com a câmera do celular. O aparelho entra já conectado na sua conta e pode ver, enviar, baixar e excluir arquivos e criar pastas — de qualquer lugar, mesmo com este computador desligado.</p>
+    <div class="linha"><button class="btn primary" id="qrGerar">${IC.phone} Gerar QR Code</button></div>
+    <div id="qrArea"></div>
+  </div>
+  <div class="card">
+    <h3>${IC.user} Minha conta</h3>
+    <p>Você está conectado como <b style="color:var(--text)">${esc(eu.nome)}</b> (usuário <b style="color:var(--text)">${esc(eu.usuario)}</b>).</p>
+    <div class="linha"><button class="btn" id="trocarSenha">Trocar minha senha</button></div>
+  </div>
+  <div class="card" id="cardUsuarios"></div>`;
+  $('#qrGerar').onclick = gerarQR;
+  $('#trocarSenha').onclick = trocarSenha;
+  if (eu.admin) montarUsuarios(); else $('#cardUsuarios').remove();
+}
+
+function carregarQRLib(){
+  if (window.QRCode) return Promise.resolve(true);
+  return new Promise(ok => {
+    const s = document.createElement('script');
+    s.src = QR_LIB;
+    s.onload = () => ok(!!window.QRCode);
+    s.onerror = () => ok(false);
+    document.head.appendChild(s);
+  });
+}
+
+async function gerarQR(){
+  const area = $('#qrArea');
+  area.innerHTML = '<p class="dim" style="margin-top:14px">Gerando código...</p>';
+  try {
+    const r = await api('/api/auth?action=parear', {corpo:{}});
+    const temLib = await carregarQRLib();
+    const minutos = Math.max(1, Math.round((r.expiraEm - Date.now()) / 60000));
+    area.innerHTML = `<div class="qrbox">
+      <canvas id="qrCanvas"></canvas>
+      <div class="qrinfo">
+        <ol>
+          <li>Abra a câmera do celular e aponte para o código.</li>
+          <li>Toque no link que aparecer na tela.</li>
+          <li>Pronto: o celular abre o sistema já conectado.</li>
+        </ol>
+        <p class="dim" style="margin:0 0 10px">Vale por ${minutos} minutos e só pode ser usado uma vez. O celular continua conectado depois disso.</p>
+        <div class="link" id="qrLink">${esc(r.url)}</div>
+        <div class="linha" style="margin-top:10px">
+          <button class="btn sm" id="qrCopiar">Copiar link</button>
+          <button class="btn sm" id="qrNovo">Gerar outro</button>
+        </div>
+      </div></div>`;
+    if (temLib){
+      window.QRCode.toCanvas($('#qrCanvas'), r.url, {width:188, margin:1, color:{dark:'#141942', light:'#ffffff'}}, err => {
+        if (err) $('#qrCanvas').replaceWith(Object.assign(document.createElement('p'), {className:'dim', textContent:'Não foi possível desenhar o QR Code. Use o link abaixo.'}));
+      });
+    } else {
+      $('#qrCanvas').replaceWith(Object.assign(document.createElement('p'),
+        {className:'dim', textContent:'Não foi possível carregar o desenhador de QR Code. Envie o link abaixo para o celular.'}));
+    }
+    $('#qrCopiar').onclick = async () => {
+      try { await navigator.clipboard.writeText(r.url); toast('Link copiado.', 'ok'); }
+      catch(e){ toast('Copie o link manualmente.', 'err'); }
+    };
+    $('#qrNovo').onclick = gerarQR;
+  } catch(e){
+    area.innerHTML = `<p class="erro" style="text-align:left">${esc(e.message)}</p>`;
+  }
+}
+
+function trocarSenha(){
+  const {ov} = openModal('Trocar minha senha',
+    `<label class="f" style="margin-top:0">Senha atual</label><input id="sAtual" type="password" autocomplete="current-password">
+     <label class="f">Nova senha (mínimo 6 caracteres)</label><input id="sNova" type="password" autocomplete="new-password">`,
+    [{label:'Cancelar'}, {label:'Salvar', cls:'primary', fn: async close => {
+      try {
+        await api('/api/usuarios?action=senha', {corpo:{atual:$('#sAtual', ov).value, nova:$('#sNova', ov).value}});
+        close(); toast('Senha alterada.', 'ok');
+      } catch(e){ toast(e.message, 'err'); }
+    }}]);
+}
+
+async function montarUsuarios(){
+  const card = $('#cardUsuarios');
+  card.innerHTML = `<h3>${IC.user} Pessoas com acesso</h3>
+    <p>Cada pessoa entra com o próprio usuário e senha e enxerga os mesmos arquivos.</p>
+    <div id="uLista" class="dim">Carregando...</div>
+    <div class="linha" style="margin-top:14px"><button class="btn primary" id="uNovo">${IC.plus} Adicionar pessoa</button></div>`;
+  $('#uNovo').onclick = novoUsuario;
+  try {
+    const r = await api('/api/usuarios?action=listar');
+    $('#uLista').classList.remove('dim');
+    $('#uLista').innerHTML = `<table class="lista">${r.usuarios.map(u => `<tr>
+      <td><b>${esc(u.nome)}</b> <span class="dim">@${esc(u.usuario)}</span> ${u.admin ? '<span class="badge">admin</span>' : ''}</td>
+      <td style="text-align:right">${u.id === eu.id ? '<span class="dim">você</span>'
+        : `<button class="btn sm danger" data-rm="${esc(u.id)}" data-nome="${esc(u.nome)}">Remover</button>`}</td></tr>`).join('')}</table>`;
+    card.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => removerUsuario(b.dataset.rm, b.dataset.nome));
+  } catch(e){ $('#uLista').textContent = e.message; }
+}
+
+function novoUsuario(){
+  const {ov} = openModal('Adicionar pessoa',
+    `<label class="f" style="margin-top:0">Nome</label><input id="uN" autocomplete="off">
+     <label class="f">Usuário (sem espaços)</label><input id="uU" autocomplete="off">
+     <label class="f">Senha (mínimo 6 caracteres)</label><input id="uS" type="password" autocomplete="new-password">
+     <label class="f" style="text-transform:none;letter-spacing:0;font-size:14px">
+       <input type="checkbox" id="uA" style="width:auto;margin-right:8px">Também é administrador</label>`,
+    [{label:'Cancelar'}, {label:'Criar', cls:'primary', fn: async close => {
+      try {
+        await api('/api/usuarios?action=criar', {corpo:{
+          nome:$('#uN', ov).value, usuario:$('#uU', ov).value, senha:$('#uS', ov).value, admin:$('#uA', ov).checked
+        }});
+        close(); montarUsuarios(); toast('Pessoa adicionada. Informe a ela o usuário e a senha.', 'ok');
+      } catch(e){ toast(e.message, 'err'); }
+    }}]);
+}
+
+function removerUsuario(id, nome){
+  openModal('Remover acesso',
+    `<p>Remover o acesso de <b style="color:var(--text)">${esc(nome)}</b>? Os arquivos continuam no sistema.</p>`,
+    [{label:'Cancelar'}, {label:'Remover', cls:'danger', fn: async close => {
+      try {
+        await api('/api/usuarios?action=excluir', {corpo:{id}});
+        close(); montarUsuarios(); toast('Acesso removido.', 'ok');
+      } catch(e){ toast(e.message, 'err'); }
+    }}]);
+}
+
+async function sair(){
+  try { await api('/api/auth?action=sair', {corpo:{}}); } catch(e){}
+  eu = null; dados = {};
+  telaLogin();
 }
 
 init();

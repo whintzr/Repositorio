@@ -1,26 +1,48 @@
 # Organizador de Arquivos
 
-Sistema web para organizar documentos em pastas reais do computador, com abas por
-formato (Word, PowerPoint, Excel e Download), tipos, filtros e busca.
+Sistema web para organizar documentos em abas por formato (Word, PowerPoint,
+Excel e Download), com tipos, filtros, busca, pastas e acesso pelo celular.
 
 **No ar:** https://organizador-arquivos.vercel.app
 
 ## Como funciona
 
-É uma página única (`index.html`), sem servidor e sem banco de dados. Os arquivos
-ficam no computador de quem usa: o sistema grava direto numa pasta escolhida pelo
-usuário, através da File System Access API do navegador. Nada é enviado para a
-internet.
+Os arquivos ficam guardados na nuvem (Vercel Blob, armazenamento privado), e não
+no computador de quem usa. Por isso o celular continua funcionando mesmo com o
+computador desligado: tudo o que for feito no celular aparece no site e vice-versa.
 
-Ao conectar uma pasta, o sistema cria sozinho as subpastas `Word`, `PowerPoint`,
-`Excel` e `Download`, e guarda os tipos de cada documento em `_sistema.json`.
+- **Contas:** cada pessoa entra com usuário e senha próprios. No primeiro acesso
+  o sistema pede a criação da conta de administrador.
+- **Celular:** em *Configurações → Conectar com dispositivo móvel* o sistema gera
+  um QR Code. O celular lê, abre o site já conectado e pode ver, enviar, baixar e
+  excluir arquivos e criar pastas. O código vale 10 minutos e só funciona uma vez.
+- **Envio:** o arquivo vai do navegador direto para o armazenamento, por uma URL
+  assinada de curta duração, sem limite prático de tamanho.
+- **Download:** o link também é assinado e expira em 10 minutos, então nada fica
+  exposto publicamente.
 
-Requer Google Chrome ou Microsoft Edge atualizado.
+O armazenamento só aceita caminhos sem acentos, então cada arquivo e pasta tem um
+nome técnico em ASCII; o nome que aparece na tela fica guardado em `sistema/meta.json`.
 
-## Uso
+## Estrutura
 
-Abra o endereço acima, navegue à vontade e clique em **Conectar pasta** quando
-quiser adicionar arquivos.
+| Caminho | O que é |
+|---|---|
+| `index.html` | Interface completa (login, arquivos, configurações) |
+| `api/_lib.js` | Armazenamento, sessões, senhas e caminhos |
+| `api/auth.js` | Primeiro acesso, login, logout e pareamento do celular |
+| `api/arquivos.js` | Listar, enviar, baixar, excluir, pastas e tipos |
+| `api/usuarios.js` | Contas de acesso |
+| `vendor/qrcode.min.js` | Gerador de QR Code, servido pelo próprio site |
+
+## Configuração
+
+Variáveis de ambiente (já criadas na Vercel):
+
+- `BLOB_READ_WRITE_TOKEN` — acesso ao armazenamento privado
+- `SESSION_SECRET` — assina os cookies de sessão e os códigos de pareamento
+
+Para rodar localmente: `npx vercel env pull .env.local` e `npx vercel dev`.
 
 ## Deploy
 
